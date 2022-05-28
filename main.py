@@ -1,5 +1,3 @@
-import time
-
 import numpy as np
 import pygame
 import taichi as ti
@@ -112,74 +110,6 @@ def snoise(param_x: float, param_y: float):
     g.x = a0.x * x0.x + h.x * x0.y
     g.yz = a0.yz * x12.xz + h.yz * x12.yw
     return 130.0 * ts.dot(m, g)
-
-
-# @ti.data_oriented
-# class ComputeShader:
-#    def __init__(self, app, compute_area, seed, octaves, _scale=1):
-#        self.app = app
-#        self.compute_area = compute_area
-#        self.compute_array = np.full(self.compute_area, 0.0, np.float64)
-#
-#        # taichi fields
-#        self.screen_field = ti.Vector.field(1, float, self.compute_area)
-#
-#        # GLOBAL FRAGMENT SHADER CONSTANTS
-#        self.seed = seed
-#        self.OFFSETS = [0, 0]
-#        self.octaves = octaves
-#        self.scale = _scale
-#
-#    @ti.kernel
-#    def render(self, time: float, x_offset: float, y_offset: float, seed: int, octaves: int, scale: float, const_cng: float):
-#        """Fragment shader imitation"""
-#        for frag_coord in ti.grouped(self.screen_field):
-#            # random_seed = random(seed, seed)
-#            #
-#            # noise = 1 * snoise((p.x + random_seed + x_offset) * 1, (p.y + random_seed + y_offset) * 1) + \
-#            #        0.5 * snoise((p.x + random_seed + x_offset) * 2, (p.y + random_seed + y_offset) * 2) + \
-#            #        0.25 * snoise((p.x + random_seed + x_offset) * 4, (p.y + random_seed + y_offset) * 4) + \
-#            #        0.125 * snoise((p.x + random_seed + x_offset) * 8, (p.y + random_seed + y_offset) * 8) + \
-#            #        0.0625 * snoise((p.x + random_seed + x_offset) * 16, (p.y + random_seed + y_offset) * 16) + \
-#            #        0.03125 * snoise((p.x + random_seed + x_offset) * 32, (p.y + random_seed + y_offset) * 32) + \
-#            #        0.015625 * snoise((p.x + random_seed + x_offset) * 64, (p.y + random_seed + y_offset) * 64) + \
-#            #        0.0078125 * snoise((p.x + random_seed + x_offset) * 128, (p.y + random_seed + y_offset) * 128)
-#            #
-#            # self.screen_field[frag_coord.x, frag_coord.y] = [
-#            #    noise / (1 + 0.5 + 0.25 + 0.125 + 0.0625 + 0.03125 + 0.015625 + 0.0078125)]
-#            p = (frag_coord.xy / resolution.y) * 2.0 - 1.0
-#
-#            random_seed = random(seed, seed)
-#
-#            last_mult = 1.0
-#            last_mult_sum = 0.0
-#            last_bmult = 1
-#
-#            noise = 0.0
-#
-#            for x in range(octaves):
-#                if x != 0:
-#                    last_mult = last_mult / 2
-#                    last_mult_sum += last_mult
-#                    last_bmult = last_bmult + last_bmult
-#                else:
-#                    last_mult_sum += 1
-#                noise += last_mult * snoise(((p.x + random_seed + x_offset) * last_bmult) * scale,
-#                                            ((p.y + random_seed + y_offset) * last_bmult) * scale)
-#
-#            self.screen_field[frag_coord.x, frag_coord.y] = [noise / last_mult_sum]
-#
-#    def update(self):
-#        time = pygame.time.get_ticks() * 0.001
-#        self.render(time, self.OFFSETS[0], self.OFFSETS[1], self.seed, self.octaves, self.scale, -0.65)
-#
-#    def swap(self):
-#        self.compute_array = self.screen_field.to_numpy()
-#
-#    def run(self) -> np.full:
-#        self.update()
-#        self.swap()
-#        return self.compute_array.copy()
 
 
 @ti.data_oriented
