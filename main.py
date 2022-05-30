@@ -8,11 +8,6 @@ ti.init(arch=ti.opengl)
 resolution = width, height = vec2(1280, 720)
 
 
-@ti.func
-def perc(whole, number):
-    return number / (whole / 100)
-
-
 @ti.data_oriented
 class PyShader:
     def __init__(self, _app):
@@ -38,7 +33,7 @@ class PyShader:
         self.cs_data.from_numpy(data)
         self.render(_time)
 
-        # TODO: Some how fix this bottleneck: extremely slow from potential 400 -> 40
+        # TODO: Some how fix this bottleneck: extremely slow takes about 20-40ms
         self.screen_array = self.screen_field.to_numpy()
 
     def draw(self):
